@@ -3,4 +3,6 @@
     <string name="movie_list">movie_list</string>
     <string name="movie_info_route">movie_info/{movieId}</string>
     <string name="movieid">movieId</string>
+    <string name="trending_movies">Trending Movies</string>
+    <string name="movie_details">Movie Details</string>
 </resources>

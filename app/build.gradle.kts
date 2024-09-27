@@ -25,7 +25,13 @@ android {
         val properties = Properties()
         properties.load(apiPropertiesFile.inputStream())
         val apiKey = properties.getProperty("API_KEY") ?: ""
+        val baseUrl = properties.getProperty("BASE_URL") ?: ""
+        val popularMoviesQuery = properties.getProperty("POPULAR_MOVIES_QUERY") ?: ""
+        val movieDetailsQuery = properties.getProperty("MOVIE_DETAILS_QUERY") ?: ""
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        buildConfigField("String", "POPULAR_MOVIES_QUERY", "\"$popularMoviesQuery\"")
+        buildConfigField("String", "MOVIE_DETAILS_QUERY", "\"$movieDetailsQuery\"")
     }
 
     buildTypes {

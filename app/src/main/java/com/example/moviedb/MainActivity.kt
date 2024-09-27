@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,13 +29,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MovieApp() {
     val navController: NavHostController = rememberNavController()
+    val movieList = stringResource(R.string.movie_list)
+    val movieInfoRoute = stringResource(R.string.movie_info_route)
 
-    NavHost(navController = navController, startDestination = "movie_list") {
-        composable("movie_list") {
+    NavHost(navController = navController, startDestination = movieList) {
+        composable(movieList) {
             MovieListScreen(navController = navController)
         }
-        composable("movie_info/{movieId}") { backStackEntry ->
-            val movieId = backStackEntry.arguments?.getString("movieId")
+        composable(movieInfoRoute) { backStackEntry ->
+            val movieId = backStackEntry.arguments?.getString(stringResource(R.string.movieid))
             MovieInfoScreen(navController = navController, movieId = movieId)
         }
     }

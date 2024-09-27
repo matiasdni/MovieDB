@@ -11,4 +11,5 @@ data class Movie(
     val voteAverage: Double,
     @SerializedName("release_date")
     val releaseDate: String,
+    val overview: String
 )

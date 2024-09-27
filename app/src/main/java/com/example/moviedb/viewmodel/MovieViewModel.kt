@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+fun formatReleaseDate(releaseDate: String): String {
+    return releaseDate.split("-").reversed().joinToString("/")
+}
+
 class MovieViewModel : ViewModel() {
     private val _trendingMovies = MutableStateFlow<List<Movie>>(emptyList())
     val trendingMovies: StateFlow<List<Movie>> get() = _trendingMovies
@@ -30,7 +34,12 @@ class MovieViewModel : ViewModel() {
             try {
                 _loadingTrendingMovies.value = true
                 val movieResponse = ApiClient.api.getTrendingMovies()
-                _trendingMovies.value = movieResponse.movies
+
+                val movies = movieResponse.movies.map { movie ->
+                    movie.copy(releaseDate = formatReleaseDate(movie.releaseDate))
+                }
+
+                _trendingMovies.value = movies
             } catch (e: Exception) {
                 _trendingMovies.value = emptyList()
             } finally {
@@ -43,7 +52,8 @@ class MovieViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _loadingMovieDetails.value = true
-                val movie = ApiClient.api.getMovieDetails(movieId)
+                val response = ApiClient.api.getMovieDetails(movieId)
+                val movie = response.copy(releaseDate = formatReleaseDate(response.releaseDate))
                 _selectedMovie.value = movie
             } catch (e: Exception) {
                 _selectedMovie.value = null

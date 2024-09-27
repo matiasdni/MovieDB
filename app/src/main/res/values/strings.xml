@@ -2,7 +2,17 @@
     <string name="app_name">MovieDB</string>
     <string name="movie_list">movie_list</string>
     <string name="movie_info_route">movie_info/{movieId}</string>
+    <string name="movie_details_route">movie_info/</string>
     <string name="movieid">movieId</string>
-    <string name="trending_movies">Trending Movies</string>
+    <string name="popular_movies">Popular Movies</string>
     <string name="movie_details">Movie Details</string>
+    <string name="contentDescription_back">Back</string>
+    <string name="poster_baseurl">https://image.tmdb.org/t/p/w500</string>
+    <string name="rating">Rating:</string>
+    <string name="error_message_movies">Failed to fetch movies</string>
+    <string name="error_message_details">Failed to fetch movie details</string>
+    <string name="yyyymmdd">yyyy-MM-dd</string>
+    <string name="ddmmyyyy">dd/MM/yyyy</string>
+    <string name="empty_string"></string>
+    <string name="rating_format">%s %.1f/10</string>
 </resources>

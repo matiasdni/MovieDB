@@ -9,11 +9,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
-    private val _movies = MutableStateFlow<List<Movie>>(emptyList())
-    val movies: StateFlow<List<Movie>> get() = _movies
+    private val _trendingMovies = MutableStateFlow<List<Movie>>(emptyList())
+    val trendingMovies: StateFlow<List<Movie>> get() = _trendingMovies
 
-    private val _loading = MutableStateFlow(true)
-    val loading: StateFlow<Boolean> get() = _loading
+    private val _loadingTrendingMovies = MutableStateFlow(true)
+    val loadingTrendingMovies: StateFlow<Boolean> get() = _loadingTrendingMovies
+
+    private val _selectedMovie = MutableStateFlow<Movie?>(null)
+    val selectedMovie: StateFlow<Movie?> get() = _selectedMovie
+
+    private val _loadingMovieDetails = MutableStateFlow(false)
+    val loadingMovieDetails: StateFlow<Boolean> get() = _loadingMovieDetails
 
     init {
         fetchTrendingMovies()
@@ -22,14 +28,27 @@ class MovieViewModel : ViewModel() {
     private fun fetchTrendingMovies() {
         viewModelScope.launch {
             try {
-                _loading.value = true
+                _loadingTrendingMovies.value = true
                 val movieResponse = ApiClient.api.getTrendingMovies()
-                _movies.value = movieResponse.movies
+                _trendingMovies.value = movieResponse.movies
             } catch (e: Exception) {
-                // Handle the error, possibly with a State for showing error messages
-                _movies.value = emptyList()  // Empty list on error
+                _trendingMovies.value = emptyList()
             } finally {
-                _loading.value = false
+                _loadingTrendingMovies.value = false
+            }
+        }
+    }
+
+    fun fetchMovieDetails(movieId: String) {
+        viewModelScope.launch {
+            try {
+                _loadingMovieDetails.value = true
+                val movie = ApiClient.api.getMovieDetails(movieId)
+                _selectedMovie.value = movie
+            } catch (e: Exception) {
+                _selectedMovie.value = null
+            } finally {
+                _loadingMovieDetails.value = false
             }
         }
     }
